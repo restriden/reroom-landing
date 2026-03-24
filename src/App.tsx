@@ -1,6 +1,36 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 const APP_URL = "https://reroom.app"; // TODO: update with real app URL
+
+function Typewriter({ text, startDelay = 0, speed = 35, className = "", onDone }: { text: string; startDelay?: number; speed?: number; className?: string; onDone?: () => void }) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const doneRef = useRef(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setStarted(true), startDelay);
+    return () => clearTimeout(t);
+  }, [startDelay]);
+
+  useEffect(() => {
+    if (!started) return;
+    if (count >= text.length) {
+      if (!doneRef.current) { doneRef.current = true; onDone?.(); }
+      return;
+    }
+    const t = setTimeout(() => setCount(c => c + 1), speed);
+    return () => clearTimeout(t);
+  }, [started, count, text.length, speed, onDone]);
+
+  const displayed = useMemo(() => text.slice(0, count), [text, count]);
+
+  return (
+    <span className={className}>
+      {displayed}
+      {started && count < text.length && <span className="inline-block w-[3px] h-[0.85em] bg-primary ml-0.5 align-middle animate-pulse" />}
+    </span>
+  );
+}
 
 function MIcon({ name, fill, size = 24, className = "" }: { name: string; fill?: boolean; size?: number; className?: string }) {
   return (
@@ -45,7 +75,12 @@ export default function App() {
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [videoEnded, setVideoEnded] = useState(false);
+  const [heroStage, setHeroStage] = useState(0); // 0=hidden, 1=eyebrow, 2=typing line1, 3=typing line2, 4=sub+buttons, 5=stats
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoEnded && heroStage === 0) setHeroStage(1);
+  }, [videoEnded, heroStage]);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -96,7 +131,8 @@ export default function App() {
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden">
         <video ref={videoRef} autoPlay muted playsInline onEnded={() => setVideoEnded(true)}
-          className="absolute inset-0 w-full h-full object-cover" style={{ filter: "brightness(0.7) saturate(1.1)" }}>
+          className="absolute inset-0 w-full h-full object-cover will-change-auto"
+          style={{ filter: "brightness(0.7) saturate(1.1)", transform: "scale(1.01)", transformOrigin: "center" }}>
           <source src="/hero-bg.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -108,21 +144,44 @@ export default function App() {
           style={{ opacity: videoEnded ? 1 : 0, background: "radial-gradient(ellipse 70% 60% at center, rgba(250,249,245,0.94) 0%, rgba(250,249,245,0.65) 50%, transparent 75%)" }} />
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-surface to-transparent pointer-events-none" />
 
-        <div className="relative z-10 text-center max-w-3xl mx-auto px-6 py-20 transition-all duration-1000 ease-out"
-          style={{ opacity: videoEnded ? 1 : 0, transform: videoEnded ? "translateY(0)" : "translateY(28px)" }}>
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/40 mb-8 shadow-card">
+        <div className="relative z-10 text-center max-w-3xl mx-auto px-6 py-20">
+          {/* Eyebrow — fade in */}
+          <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/40 mb-8 shadow-card transition-all duration-700 ${heroStage >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            onTransitionEnd={() => heroStage === 1 && setHeroStage(2)}>
             <MIcon name="auto_awesome" fill size={18} className="text-primary" />
             <span className="text-sm font-bold text-primary tracking-wide">Dein persönlicher KI-Interior-Designer</span>
           </div>
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.05] mb-6"
+
+          {/* Headline — typewriter */}
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.05] mb-6 min-h-[2.2em]"
             style={{ textShadow: "0 0 30px rgba(250,249,245,0.9), 0 0 60px rgba(250,249,245,0.5)" }}>
-            Sieh dein Zuhause so,<br /><span className="text-primary">wie du es dir vorstellst.</span>
+            {heroStage >= 2 && (
+              <Typewriter
+                text="Sieh dein Zuhause so,"
+                speed={40}
+                onDone={() => setHeroStage(3)}
+              />
+            )}
+            {heroStage >= 2 && <br />}
+            {heroStage >= 3 && (
+              <Typewriter
+                text="wie du es dir vorstellst."
+                speed={40}
+                className="text-primary"
+                onDone={() => setTimeout(() => setHeroStage(4), 300)}
+              />
+            )}
           </h1>
-          <p className="text-lg md:text-xl text-on-surface/75 leading-relaxed max-w-[52ch] mx-auto mb-10"
+
+          {/* Subline — fade in */}
+          <p className={`text-lg md:text-xl text-on-surface/75 leading-relaxed max-w-[52ch] mx-auto mb-10 transition-all duration-700 ${heroStage >= 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             style={{ textShadow: "0 0 20px rgba(250,249,245,0.9)" }}>
             Du weißt, dass da mehr geht — aber was genau? Foto machen, Stil wählen, und in wenigen Sekunden siehst du es.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+          {/* Buttons — fade in */}
+          <div className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-200 ${heroStage >= 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            onTransitionEnd={() => heroStage === 4 && setHeroStage(5)}>
             <button onClick={goToApp}
               className="group px-8 py-4 bg-primary text-on-primary text-base font-bold rounded-2xl hover:bg-primary/90 active:scale-[0.97] transition-all shadow-[0_8px_30px_-4px_rgba(164,60,26,0.35)] flex items-center justify-center gap-3">
               Jetzt kostenlos designen
@@ -132,7 +191,9 @@ export default function App() {
               In 60 Sekunden verstehen
             </a>
           </div>
-          <div className="flex items-center justify-center gap-8 mt-12 pt-8 border-t border-on-surface/8">
+
+          {/* Stats — fade in */}
+          <div className={`flex items-center justify-center gap-8 mt-12 pt-8 border-t border-on-surface/8 transition-all duration-700 ${heroStage >= 5 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             <div className="flex flex-col items-center">
               <span className="text-2xl font-extrabold text-on-surface font-display">2.000</span>
               <span className="text-xs text-on-surface-variant font-medium">Gratis-Credits</span>
