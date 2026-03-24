@@ -25,18 +25,10 @@ function BeforeAfter() {
     <div ref={containerRef} className="relative aspect-[16/10] rounded-3xl overflow-hidden cursor-col-resize select-none shadow-card-lg"
       onMouseMove={e => e.buttons === 1 && handleMove(e.clientX)}
       onTouchMove={e => handleMove(e.touches[0].clientX)}>
-      <div className="absolute inset-0 bg-gradient-to-br from-[#d4c5b0] via-[#c9bba8] to-[#b8a890]">
-        <div className="absolute bottom-0 left-[10%] w-[25%] h-[35%] rounded-t-lg bg-[#8B7355]/40" />
-        <div className="absolute bottom-0 left-[40%] w-[30%] h-[20%] rounded-t-md bg-[#8B7355]/30" />
-        <div className="absolute bottom-0 right-[8%] w-[15%] h-[50%] rounded-t-lg bg-[#8B7355]/35" />
-        <div className="absolute top-4 left-4 px-4 py-2 bg-on-surface/50 text-on-primary text-xs font-bold rounded-full backdrop-blur-sm tracking-wide uppercase">Vorher</div>
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-fixed via-primary-fixed-dim to-secondary-container" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
-        <div className="absolute bottom-0 left-[10%] w-[25%] h-[35%] rounded-t-lg bg-primary/15" />
-        <div className="absolute bottom-0 left-[40%] w-[30%] h-[20%] rounded-t-md bg-tertiary/10" />
-        <div className="absolute bottom-0 right-[8%] w-[15%] h-[50%] rounded-t-lg bg-secondary/10" />
-        <div className="absolute top-[20%] right-[15%] w-5 h-5 rounded-full bg-primary-container/50" />
-        <div className="absolute top-[40%] right-[25%] w-3 h-3 rounded-full bg-tertiary-container/40" />
+      <img src="/showcase-before-1.png" alt="Vorher" className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+      <div className="absolute top-4 left-4 px-4 py-2 bg-on-surface/50 text-on-primary text-xs font-bold rounded-full backdrop-blur-sm tracking-wide uppercase">Vorher</div>
+      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
+        <img src="/showcase-after-2.png" alt="Nachher" className="absolute inset-0 w-full h-full object-cover" draggable={false} />
         <div className="absolute top-4 left-4 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-full tracking-wide uppercase">Nachher</div>
       </div>
       <div className="absolute top-0 bottom-0" style={{ left: `${split}%` }}>
