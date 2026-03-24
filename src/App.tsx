@@ -1,17 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const APP_URL = "https://reroom.app"; // TODO: update with real app URL
-const FEED_URL = "https://kcnjqiimclekertpfdpb.supabase.co/functions/v1/landing-product-feed";
-
-interface FeedProduct {
-  id: string; name: string; slug: string; category: string;
-  img: string; price: string; priceCents: number;
-  colors: string[]; link: string | null; source: string | null;
-}
-interface PaletteRow {
-  name: string; hue: number; bgColor: string; accentColor: string;
-  products: FeedProduct[];
-}
 
 function MIcon({ name, fill, size = 24, className = "" }: { name: string; fill?: boolean; size?: number; className?: string }) {
   return (
@@ -46,99 +35,6 @@ function BeforeAfter() {
         <div className="absolute inset-y-0 -translate-x-1/2 w-[2px] bg-surface-container-lowest/90 shadow-lg" />
         <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-surface-container-lowest shadow-card-lg flex items-center justify-center">
           <MIcon name="drag_indicator" size={18} className="text-on-surface" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ProductCard({ product }: { product: FeedProduct }) {
-  return (
-    <a href={product.link ?? APP_URL} target="_blank" rel="noopener noreferrer"
-      className="flex-shrink-0 w-[200px] group cursor-pointer">
-      <div className="rounded-2xl overflow-hidden bg-surface-container-lowest border border-outline-variant/20 shadow-card hover:shadow-card-hover transition-all duration-300 group-hover:-translate-y-1">
-        <div className="aspect-square overflow-hidden bg-surface-container">
-          <img src={product.img} alt={product.name} loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-        </div>
-        <div className="p-3">
-          <p className="text-xs font-medium text-on-surface-variant truncate">{product.category}</p>
-          <p className="text-sm font-bold text-on-surface mt-0.5 line-clamp-2 leading-snug min-h-[2.5em]">{product.name}</p>
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-sm font-extrabold text-primary">{product.price}</span>
-            {product.source && <span className="text-[10px] text-on-surface-variant/60 font-medium">{product.source}</span>}
-          </div>
-          <div className="flex gap-1 mt-2">
-            {product.colors.map((c, i) => (
-              <div key={i} className="w-3.5 h-3.5 rounded-full border border-outline-variant/30" style={{ backgroundColor: c }} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </a>
-  );
-}
-
-function PaletteRowComponent({ row, index }: { row: PaletteRow; index: number }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  return (
-    <div className="py-3">
-      <div ref={scrollRef}
-        className="flex gap-4 overflow-x-auto pb-4 px-6 md:px-12 scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-        {/* Offset every other row for visual interest */}
-        {index % 2 === 1 && <div className="flex-shrink-0 w-[60px]" />}
-        {row.products.map((p) => (
-          <ProductCard key={p.id} product={p} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ProductFeed({ visible }: { visible: boolean }) {
-  const [rows, setRows] = useState<PaletteRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const feedRef = useRef<HTMLDivElement>(null);
-  const [bgHue, setBgHue] = useState(15); // Start at brand warm-red
-
-  useEffect(() => {
-    fetch(FEED_URL)
-      .then((r) => r.json())
-      .then((d) => { setRows(d.rows ?? []); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
-
-  // Scroll-based hue shift
-  const handleScroll = useCallback(() => {
-    if (!feedRef.current || rows.length === 0) return;
-    const rect = feedRef.current.getBoundingClientRect();
-    const feedHeight = rect.height;
-    const viewportCenter = window.innerHeight / 2;
-    const progress = Math.max(0, Math.min(1, (viewportCenter - rect.top) / feedHeight));
-    const rowIndex = Math.min(rows.length - 1, Math.floor(progress * rows.length));
-    setBgHue(rows[rowIndex].hue);
-  }, [rows]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
-
-  if (loading) return null;
-  if (rows.length === 0) return null;
-
-  return (
-    <div ref={feedRef} className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-      <div className="relative py-8 overflow-hidden transition-colors duration-1000 ease-out rounded-[2rem] mx-4 md:mx-8"
-        style={{ backgroundColor: `hsl(${bgHue}, 12%, 95%)` }}>
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: `linear-gradient(135deg, hsl(${bgHue}, 15%, 93%) 0%, transparent 50%, hsl(${(bgHue + 30) % 360}, 12%, 94%) 100%)` }} />
-        <div className="relative">
-          {rows.map((row, i) => (
-            <PaletteRowComponent key={row.name} row={row} index={i} />
-          ))}
         </div>
       </div>
     </div>
@@ -516,24 +412,6 @@ export default function App() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ═══════════════ PRODUCT FEED ═══════════════ */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div id="section-feed" data-animate className={`mb-10 transition-all duration-700 ${vis("section-feed") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <span className="text-sm font-bold text-primary tracking-[0.15em] uppercase">Produkt-Feed</span>
-            <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3">
-              30.000+ echte Produkte
-            </h2>
-            <p className="text-lg text-on-surface-variant mt-3 max-w-[55ch]">
-              Jedes Möbelstück, das die KI vorschlägt, kannst du direkt kaufen — mit Preisvergleich von IKEA, Amazon, Westwing &amp; Co.
-            </p>
-          </div>
-        </div>
-        <div id="feed-rows" data-animate>
-          <ProductFeed visible={vis("feed-rows")} />
         </div>
       </section>
 
