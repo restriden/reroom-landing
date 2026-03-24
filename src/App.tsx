@@ -47,8 +47,16 @@ export default function App() {
   const [videoEnded, setVideoEnded] = useState(false);
   const [heroStage, setHeroStage] = useState(0); // 0=hidden, 1=eyebrow, 2=typing line1, 3=typing line2, 4=sub+buttons, 5=stats
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [heroPaused, setHeroPaused] = useState(false);
   const redesignVideoRef = useRef<HTMLVideoElement>(null);
   const [redesignPaused, setRedesignPaused] = useState(false);
+  const zimmerVideoRef = useRef<HTMLVideoElement>(null);
+  const [zimmerPaused, setZimmerPaused] = useState(false);
+  const osternVideoRef = useRef<HTMLVideoElement>(null);
+  const [osternPaused, setOsternPaused] = useState(false);
+  const romantischVideoRef = useRef<HTMLVideoElement>(null);
+  const [romantischPaused, setRomantischPaused] = useState(false);
+  const [osternFinished, setOsternFinished] = useState(false);
 
   useEffect(() => {
     if (videoEnded && heroStage === 0) setHeroStage(1);
@@ -102,11 +110,17 @@ export default function App() {
 
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden">
-        <video ref={videoRef} autoPlay muted playsInline onEnded={() => setVideoEnded(true)}
+        <video ref={videoRef} autoPlay muted playsInline onEnded={() => { setVideoEnded(true); setHeroPaused(true); }}
           className="absolute inset-0 w-full h-full object-cover"
           style={{ filter: "brightness(0.7) saturate(1.1)", transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
           <source src="/hero-bg.mp4" type="video/mp4" />
         </video>
+        {heroPaused && (
+          <button onClick={() => { const v = videoRef.current; if (v) { v.currentTime = 0; v.play(); setHeroPaused(false); setVideoEnded(false); } }}
+            className="absolute bottom-8 right-8 z-20 w-14 h-14 rounded-full bg-surface-container-lowest/80 backdrop-blur-md shadow-card-lg flex items-center justify-center hover:scale-105 transition-transform cursor-pointer">
+            <MIcon name="play_arrow" fill size={28} className="text-primary ml-0.5" />
+          </button>
+        )}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: `radial-gradient(ellipse 85% 75% at center, transparent 20%, var(--color-surface) 72%),
             linear-gradient(to bottom, var(--color-surface) 0%, transparent 18%, transparent 78%, var(--color-surface) 100%),
@@ -200,147 +214,197 @@ export default function App() {
         </div>
       </section>
 
-      {/* ═══════════════ FULL REDESIGN ═══════════════ */}
-      <section className="py-20 md:py-28 relative">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
-            <div id="section-redesign" data-animate className={`transition-all duration-700 ${vis("section-redesign") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <span className="text-sm font-bold text-primary tracking-[0.15em] uppercase">Full Redesign</span>
-              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Dein Zuhause.<br />Komplett neu gedacht.</h2>
-              <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Fotografiere deinen Raum und lass die KI ein komplett neues Design erstellen — mit echten Möbeln, die du direkt kaufen kannst.</p>
-              <ul className="mt-6 space-y-3">
-                {[
-                  { icon: "palette", text: "25+ Stile frei kombinierbar" },
-                  { icon: "tune", text: "Von dezent bis komplett neu — du entscheidest wie mutig" },
-                  { icon: "shopping_bag", text: "Jedes Möbelstück klickbar & kaufbar" },
-                ].map((f, i) => (
-                  <li key={i} className="flex items-center gap-3 text-on-surface-variant">
-                    <MIcon name={f.icon} fill size={20} className="text-primary" />
-                    <span className="text-sm font-medium">{f.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div id="redesign-video" data-animate className={`transition-all duration-700 delay-200 ${vis("redesign-video") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <div className="rounded-3xl overflow-hidden border border-outline-variant/30 shadow-card-lg relative group">
-                <video
-                  ref={redesignVideoRef}
-                  autoPlay muted playsInline
-                  className="w-full aspect-[4/3] object-cover"
-                  style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
-                  onEnded={() => setRedesignPaused(true)}
-                >
-                  <source src="/demo-redesign.mp4" type="video/mp4" />
-                </video>
-                {redesignPaused && (
-                  <button
-                    onClick={() => {
-                      const v = redesignVideoRef.current;
-                      if (v) { v.currentTime = 0; v.play(); setRedesignPaused(false); }
-                    }}
-                    className="absolute inset-0 flex items-center justify-center bg-on-surface/20 backdrop-blur-sm transition-opacity cursor-pointer"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-surface-container-lowest/90 shadow-card-lg flex items-center justify-center hover:scale-105 transition-transform">
-                      <MIcon name="play_arrow" fill size={36} className="text-primary ml-1" />
-                    </div>
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ═══════════════ FEATURES — Flowing sections ═══════════════ */}
+      <div className="relative">
 
-      {/* ═══════════════ ZIMMER EINRICHTEN ═══════════════ */}
-      <section className="py-20 md:py-28 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/30 to-surface pointer-events-none" />
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
-            <div id="zimmer-video" data-animate className={`order-2 md:order-1 transition-all duration-700 ${vis("zimmer-video") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <div className="rounded-3xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
-                <video autoPlay muted loop playsInline className="w-full aspect-[4/3] object-cover" style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
-                  <source src="/demo-kinderzimmer.mp4" type="video/mp4" />
-                </video>
-              </div>
-            </div>
-            <div id="section-zimmer" data-animate className={`order-1 md:order-2 transition-all duration-700 ${vis("section-zimmer") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <span className="text-sm font-bold text-secondary tracking-[0.15em] uppercase">Zimmer einrichten</span>
-              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Jedes Zimmer.<br /><span className="text-secondary">Perfekt eingerichtet.</span></h2>
-              <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Kinderzimmer, Schlafzimmer, Home-Office — fotografiere den Raum und die KI richtet ihn komplett ein. Mit echten Möbeln aus über 30.000 Produkten.</p>
-              <ul className="mt-6 space-y-3">
-                {[
-                  { icon: "child_care", text: "Kinderzimmer altersgerecht gestalten" },
-                  { icon: "bed", text: "Schlafzimmer, Bad, Küche — jeder Raum" },
-                  { icon: "shopping_bag", text: "Alle Möbel direkt kaufbar mit Preisvergleich" },
-                ].map((f, i) => (
-                  <li key={i} className="flex items-center gap-3 text-on-surface-variant">
-                    <MIcon name={f.icon} fill size={20} className="text-secondary" />
-                    <span className="text-sm font-medium">{f.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════ TISCH-DEKO — Saisonale Dekoration ═══════════════ */}
-      <section className="py-20 md:py-28 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/30 to-surface pointer-events-none" />
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative">
-          <div id="section-deko" data-animate className={`transition-all duration-700 ${vis("section-deko") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-10 items-center max-w-6xl mx-auto">
-              {/* Video links — Ostern */}
-              <div className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
-                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover" style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
-                  <source src="/demo-ostern.mp4" type="video/mp4" />
-                </video>
-                <div className="p-3 bg-surface-container-lowest text-center">
-                  <span className="text-sm font-bold text-on-surface">Ostern</span>
-                </div>
-              </div>
-
-              {/* Text mittig */}
-              <div className="text-center max-w-sm mx-auto">
-                <span className="text-sm font-bold text-tertiary tracking-[0.15em] uppercase">Neu: Tisch &amp; Deko</span>
-                <h2 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">
-                  Dein Tisch, fertig<br /><span className="text-tertiary">dekoriert.</span>
-                </h2>
-                <p className="text-base text-on-surface-variant mt-4 leading-relaxed">
-                  Foto vom Tisch machen, Anlass wählen — und in wenigen Sekunden siehst du, wie dein Tisch perfekt gedeckt aussieht. Jedes Teil direkt kaufbar.
-                </p>
-                {/* Anlass-Chips */}
-                <div className="flex flex-wrap justify-center gap-2 mt-6">
+        {/* ── FULL REDESIGN — Text links, Video rechts ── */}
+        <section className="py-16 md:py-24 relative overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
+              <div id="section-redesign" data-animate className={`transition-all duration-700 ${vis("section-redesign") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                <span className="text-sm font-bold text-primary tracking-[0.15em] uppercase">Full Redesign</span>
+                <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Dein Zuhause.<br />Komplett neu gedacht.</h2>
+                <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Fotografiere deinen Raum und lass die KI ein komplett neues Design erstellen — mit echten Möbeln, die du direkt kaufen kannst.</p>
+                <ul className="mt-6 space-y-3">
                   {[
-                    { icon: "egg_alt", label: "Ostern", color: "bg-[#FFF3E0] text-[#E65100] border-[#FFE0B2]" },
-                    { icon: "park", label: "Weihnachten", color: "bg-[#E8F5E9] text-[#2E7D32] border-[#C8E6C9]" },
-                    { icon: "cake", label: "Geburtstag", color: "bg-primary-fixed/50 text-primary border-primary-fixed-dim/50" },
-                    { icon: "local_florist", label: "Frühling", color: "bg-[#FCE4EC] text-[#C62828] border-[#F8BBD0]" },
-                    { icon: "celebration", label: "Silvester", color: "bg-[#EDE7F6] text-[#4527A0] border-[#D1C4E9]" },
-                    { icon: "dinner_dining", label: "Dinner", color: "bg-surface-container-high text-on-surface border-outline-variant/40" },
-                    { icon: "edit", label: "Eigene Idee...", color: "bg-surface-container text-on-surface-variant border-outline-variant/30" },
-                  ].map((o, i) => (
-                    <div key={i} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold cursor-default select-none ${o.color}`}>
-                      <MIcon name={o.icon} fill size={14} />
-                      {o.label}
-                    </div>
+                    { icon: "palette", text: "25+ Stile frei kombinierbar" },
+                    { icon: "tune", text: "Von dezent bis komplett neu — du entscheidest wie mutig" },
+                    { icon: "shopping_bag", text: "Jedes Möbelstück klickbar & kaufbar" },
+                  ].map((f, i) => (
+                    <li key={i} className="flex items-center gap-3 text-on-surface-variant">
+                      <MIcon name={f.icon} fill size={20} className="text-primary" />
+                      <span className="text-sm font-medium">{f.text}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-
-              {/* Video rechts — Romantischer Abend */}
-              <div className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
-                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover" style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
-                  <source src="/demo-romantisch.mp4" type="video/mp4" />
-                </video>
-                <div className="p-3 bg-surface-container-lowest text-center">
-                  <span className="text-sm font-bold text-on-surface">Romantischer Abend</span>
+              <div id="redesign-video" data-animate className={`relative transition-all duration-700 delay-200 ${vis("redesign-video") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                <div className="relative overflow-hidden rounded-3xl">
+                  <video ref={redesignVideoRef} autoPlay muted playsInline
+                    className="w-full aspect-[4/3] object-cover"
+                    style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                    onEnded={() => setRedesignPaused(true)}>
+                    <source src="/demo-redesign.mp4" type="video/mp4" />
+                  </video>
+                  {/* Gradient fade edges */}
+                  <div className="absolute inset-0 pointer-events-none" style={{
+                    background: "linear-gradient(to right, var(--color-surface) 0%, transparent 8%, transparent 92%, var(--color-surface) 100%), linear-gradient(to bottom, var(--color-surface) 0%, transparent 6%, transparent 94%, var(--color-surface) 100%)"
+                  }} />
+                  {redesignPaused && (
+                    <button onClick={() => { const v = redesignVideoRef.current; if (v) { v.currentTime = 0; v.play(); setRedesignPaused(false); } }}
+                      className="absolute inset-0 flex items-center justify-center cursor-pointer z-10">
+                      <div className="w-16 h-16 rounded-full bg-surface-container-lowest/90 shadow-card-lg flex items-center justify-center hover:scale-105 transition-transform">
+                        <MIcon name="play_arrow" fill size={36} className="text-primary ml-1" />
+                      </div>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* ── ZIMMER EINRICHTEN — Video links, Text rechts ── */}
+        <section className="py-16 md:py-24 relative overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
+              <div id="zimmer-video" data-animate className={`order-2 md:order-1 relative transition-all duration-700 ${vis("zimmer-video") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                <div className="relative overflow-hidden rounded-3xl">
+                  <video ref={zimmerVideoRef} autoPlay muted playsInline
+                    className="w-full aspect-[4/3] object-cover"
+                    style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                    onEnded={() => setZimmerPaused(true)}>
+                    <source src="/demo-kinderzimmer.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 pointer-events-none" style={{
+                    background: "linear-gradient(to right, var(--color-surface) 0%, transparent 8%, transparent 92%, var(--color-surface) 100%), linear-gradient(to bottom, var(--color-surface) 0%, transparent 6%, transparent 94%, var(--color-surface) 100%)"
+                  }} />
+                  {zimmerPaused && (
+                    <button onClick={() => { const v = zimmerVideoRef.current; if (v) { v.currentTime = 0; v.play(); setZimmerPaused(false); } }}
+                      className="absolute inset-0 flex items-center justify-center cursor-pointer z-10">
+                      <div className="w-16 h-16 rounded-full bg-surface-container-lowest/90 shadow-card-lg flex items-center justify-center hover:scale-105 transition-transform">
+                        <MIcon name="play_arrow" fill size={36} className="text-secondary ml-1" />
+                      </div>
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div id="section-zimmer" data-animate className={`order-1 md:order-2 transition-all duration-700 ${vis("section-zimmer") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                <span className="text-sm font-bold text-secondary tracking-[0.15em] uppercase">Zimmer einrichten</span>
+                <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Jedes Zimmer.<br /><span className="text-secondary">Perfekt eingerichtet.</span></h2>
+                <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Kinderzimmer, Schlafzimmer, Home-Office — fotografiere den Raum und die KI richtet ihn komplett ein. Mit echten Möbeln aus über 30.000 Produkten.</p>
+                <ul className="mt-6 space-y-3">
+                  {[
+                    { icon: "child_care", text: "Kinderzimmer altersgerecht gestalten" },
+                    { icon: "bed", text: "Schlafzimmer, Bad, Küche — jeder Raum" },
+                    { icon: "shopping_bag", text: "Alle Möbel direkt kaufbar mit Preisvergleich" },
+                  ].map((f, i) => (
+                    <li key={i} className="flex items-center gap-3 text-on-surface-variant">
+                      <MIcon name={f.icon} fill size={20} className="text-secondary" />
+                      <span className="text-sm font-medium">{f.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── TISCH-DEKO — Text links, Videos rechts (sequential) ── */}
+        <section className="py-16 md:py-24 relative overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div id="section-deko" data-animate className={`transition-all duration-700 ${vis("section-deko") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
+                {/* Text links */}
+                <div>
+                  <span className="text-sm font-bold text-tertiary tracking-[0.15em] uppercase">Neu: Tisch &amp; Deko</span>
+                  <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">
+                    Dein Tisch, fertig<br /><span className="text-tertiary">dekoriert.</span>
+                  </h2>
+                  <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">
+                    Foto vom Tisch machen, Anlass wählen — und in wenigen Sekunden siehst du, wie dein Tisch perfekt gedeckt aussieht. Jedes Teil direkt kaufbar.
+                  </p>
+                  {/* Anlass-Chips */}
+                  <div className="flex flex-wrap gap-2 mt-6">
+                    {[
+                      { icon: "egg_alt", label: "Ostern", color: "bg-[#FFF3E0] text-[#E65100] border-[#FFE0B2]" },
+                      { icon: "park", label: "Weihnachten", color: "bg-[#E8F5E9] text-[#2E7D32] border-[#C8E6C9]" },
+                      { icon: "cake", label: "Geburtstag", color: "bg-primary-fixed/50 text-primary border-primary-fixed-dim/50" },
+                      { icon: "local_florist", label: "Frühling", color: "bg-[#FCE4EC] text-[#C62828] border-[#F8BBD0]" },
+                      { icon: "celebration", label: "Silvester", color: "bg-[#EDE7F6] text-[#4527A0] border-[#D1C4E9]" },
+                      { icon: "dinner_dining", label: "Dinner", color: "bg-surface-container-high text-on-surface border-outline-variant/40" },
+                      { icon: "edit", label: "Eigene Idee...", color: "bg-surface-container text-on-surface-variant border-outline-variant/30" },
+                    ].map((o, i) => (
+                      <div key={i} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold cursor-default select-none ${o.color}`}>
+                        <MIcon name={o.icon} fill size={14} />
+                        {o.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Videos rechts — nacheinander */}
+                <div className="flex gap-4">
+                  {/* Ostern */}
+                  <div className="flex-1 relative overflow-hidden rounded-3xl">
+                    <video ref={osternVideoRef} autoPlay muted playsInline
+                      className="w-full aspect-[3/4] object-cover"
+                      style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                      onEnded={() => {
+                        setOsternPaused(true);
+                        setOsternFinished(true);
+                        // Start the second video
+                        const v = romantischVideoRef.current;
+                        if (v) { v.currentTime = 0; v.play(); }
+                      }}>
+                      <source src="/demo-ostern.mp4" type="video/mp4" />
+                    </video>
+                    <div className="absolute inset-0 pointer-events-none" style={{
+                      background: "linear-gradient(to bottom, var(--color-surface) 0%, transparent 6%, transparent 94%, var(--color-surface) 100%), linear-gradient(to right, transparent 90%, var(--color-surface) 100%)"
+                    }} />
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="text-sm font-bold text-on-surface/80 drop-shadow-sm">Ostern</span>
+                    </div>
+                    {osternPaused && (
+                      <button onClick={() => { const v = osternVideoRef.current; if (v) { v.currentTime = 0; v.play(); setOsternPaused(false); } }}
+                        className="absolute inset-0 flex items-center justify-center cursor-pointer z-10">
+                        <div className="w-12 h-12 rounded-full bg-surface-container-lowest/90 shadow-card-lg flex items-center justify-center hover:scale-105 transition-transform">
+                          <MIcon name="play_arrow" fill size={28} className="text-tertiary ml-0.5" />
+                        </div>
+                      </button>
+                    )}
+                  </div>
+                  {/* Romantischer Abend — paused initially, plays after Ostern ends */}
+                  <div className="flex-1 relative overflow-hidden rounded-3xl">
+                    <video ref={romantischVideoRef} muted playsInline
+                      className="w-full aspect-[3/4] object-cover"
+                      style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                      onEnded={() => setRomantischPaused(true)}>
+                      <source src="/demo-romantisch.mp4" type="video/mp4" />
+                    </video>
+                    <div className="absolute inset-0 pointer-events-none" style={{
+                      background: "linear-gradient(to bottom, var(--color-surface) 0%, transparent 6%, transparent 94%, var(--color-surface) 100%), linear-gradient(to left, transparent 90%, var(--color-surface) 100%)"
+                    }} />
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="text-sm font-bold text-on-surface/80 drop-shadow-sm">Romantischer Abend</span>
+                    </div>
+                    {/* Show play button if not yet started or if finished */}
+                    {(romantischPaused || !osternFinished) && (
+                      <button onClick={() => { const v = romantischVideoRef.current; if (v) { v.currentTime = 0; v.play(); setRomantischPaused(false); setOsternFinished(true); } }}
+                        className="absolute inset-0 flex items-center justify-center cursor-pointer z-10">
+                        <div className="w-12 h-12 rounded-full bg-surface-container-lowest/90 shadow-card-lg flex items-center justify-center hover:scale-105 transition-transform">
+                          <MIcon name="play_arrow" fill size={28} className="text-tertiary ml-0.5" />
+                        </div>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>{/* End flowing features wrapper */}
 
       {/* ═══════════════ HOW IT WORKS ═══════════════ */}
       <section id="how" className="py-20 md:py-28 relative">
