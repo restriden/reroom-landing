@@ -103,8 +103,8 @@ export default function App() {
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden">
         <video ref={videoRef} autoPlay muted playsInline onEnded={() => setVideoEnded(true)}
-          className="absolute inset-0 w-full h-full object-cover will-change-auto"
-          style={{ filter: "brightness(0.7) saturate(1.1)", transform: "scale(1.01)", transformOrigin: "center" }}>
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "brightness(0.7) saturate(1.1)", transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
           <source src="/hero-bg.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -227,6 +227,7 @@ export default function App() {
                   ref={redesignVideoRef}
                   autoPlay muted playsInline
                   className="w-full aspect-[4/3] object-cover"
+                  style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
                   onEnded={() => setRedesignPaused(true)}
                 >
                   <source src="/demo-redesign.mp4" type="video/mp4" />
@@ -258,7 +259,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-10 items-center max-w-6xl mx-auto">
               {/* Video links — Ostern */}
               <div className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
-                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover">
+                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover" style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
                   <source src="/demo-ostern.mp4" type="video/mp4" />
                 </video>
                 <div className="p-3 bg-surface-container-lowest text-center">
@@ -296,7 +297,7 @@ export default function App() {
 
               {/* Video rechts — Romantischer Abend */}
               <div className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
-                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover">
+                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover" style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
                   <source src="/demo-romantisch.mp4" type="video/mp4" />
                 </video>
                 <div className="p-3 bg-surface-container-lowest text-center">
