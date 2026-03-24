@@ -177,6 +177,42 @@ export default function App() {
         </div>
       </section>
 
+      {/* USE CASES — Nicht nur ganze Zimmer */}
+      <section className="py-20 md:py-28 relative">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div id="section-usecases" data-animate className={`text-center mb-14 transition-all duration-700 ${vis("section-usecases") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <span className="text-sm font-bold text-primary tracking-[0.15em] uppercase">Mehr als nur Zimmer</span>
+            <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3">Dekoriere für jeden Anlass</h2>
+            <p className="text-lg text-on-surface-variant mt-3 max-w-[55ch] mx-auto">Ostern, Weihnachten, romantischer Abend — fotografiere deinen Tisch oder deine Ecke, wähle den Anlass und lass die KI zaubern.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {[
+              { video: "/demo-ostern.mp4", label: "Ostern", desc: "Tisch fotografieren, Saisonalität wählen — fertig.", icon: "egg_alt" },
+              { video: "/demo-romantisch.mp4", label: "Romantischer Abend", desc: "Stimmung setzen mit Kerzen, Blumen und warmem Licht.", icon: "favorite" },
+            ].map((uc, i) => (
+              <div key={i} id={`usecase-${i}`} data-animate className={`transition-all duration-700 ${vis(`usecase-${i}`) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: `${i * 150}ms` }}>
+                <div className="rounded-3xl overflow-hidden border border-outline-variant/30 bg-surface-container-lowest shadow-card-lg hover:shadow-card-hover transition-shadow">
+                  <div className="aspect-[4/3] relative">
+                    <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                      <source src={uc.video} type="video/mp4" />
+                    </video>
+                  </div>
+                  <div className="p-6 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-primary-fixed/40 flex items-center justify-center shrink-0">
+                      <MIcon name={uc.icon} fill size={24} className="text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-on-surface">{uc.label}</h3>
+                      <p className="text-sm text-on-surface-variant">{uc.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section id="how" className="py-20 md:py-28 relative">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
