@@ -112,20 +112,20 @@ export default function App() {
           style={{ opacity: videoEnded ? 1 : 0, transform: videoEnded ? "translateY(0)" : "translateY(28px)" }}>
           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/40 mb-8 shadow-card">
             <MIcon name="auto_awesome" fill size={18} className="text-primary" />
-            <span className="text-sm font-bold text-primary tracking-wide">Für alle, die nie wieder Möbel kaufen wollen, die dann doch nicht passen</span>
+            <span className="text-sm font-bold text-primary tracking-wide">Für alle, die schon lange denken: Da müsste ich mal was machen</span>
           </div>
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.05] mb-6"
             style={{ textShadow: "0 0 30px rgba(250,249,245,0.9), 0 0 60px rgba(250,249,245,0.5)" }}>
-            Sieh dein neues Zimmer —<br /><span className="text-primary">bevor du kaufst.</span>
+            Endlich sehen, wie schön<br /><span className="text-primary">dein Zuhause sein könnte.</span>
           </h1>
           <p className="text-lg md:text-xl text-on-surface/75 leading-relaxed max-w-[52ch] mx-auto mb-10"
             style={{ textShadow: "0 0 20px rgba(250,249,245,0.9)" }}>
-            Du fotografierst deinen Raum. Die KI zeigt dir, wie er mit neuen Möbeln aussieht — von IKEA, Amazon, Otto & Co. Kein Raten mehr. Kein Risiko. Kein Interior-Berater für 500€.
+            Fotografiere dein Zimmer — und die KI zeigt dir sofort, wie es mit neuen Möbeln und Deko aussehen würde. Mit echten Produkten, die du direkt kaufen kannst.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button onClick={goToApp}
               className="group px-8 py-4 bg-primary text-on-primary text-base font-bold rounded-2xl hover:bg-primary/90 active:scale-[0.97] transition-all shadow-[0_8px_30px_-4px_rgba(164,60,26,0.35)] flex items-center justify-center gap-3">
-              Kostenlos ausprobieren — 0€, kein Abo
+              Kostenlos ausprobieren
               <MIcon name="arrow_forward" size={20} className="transition-transform group-hover:translate-x-1" />
             </button>
             <a href="#how" className="px-8 py-4 glass-panel text-on-surface text-base font-bold rounded-2xl border border-outline-variant/40 hover:border-primary/30 hover:shadow-card-lg active:scale-[0.97] transition-all flex items-center justify-center gap-2 shadow-card">
@@ -133,7 +133,7 @@ export default function App() {
             </a>
           </div>
           <div className="flex items-center justify-center gap-8 mt-12 pt-8 border-t border-on-surface/8">
-            {[{ n: "3.500+", l: "echte Produkte von echten Shops" }, { n: "25+", l: "Design-Stile kombinierbar" }, { n: "0€", l: "zum Starten — keine Kreditkarte" }].map((s, i) => (
+            {[{ n: "3.500+", l: "echte Produkte" }, { n: "25+", l: "Einrichtungsstile" }, { n: "Kostenlos", l: "zum Ausprobieren" }].map((s, i) => (
               <div key={i} className="flex flex-col items-center">
                 {i > 0 && <div className="hidden" />}
                 <span className="text-2xl font-extrabold text-on-surface font-display">{s.n}</span>
@@ -148,13 +148,12 @@ export default function App() {
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/40 to-surface pointer-events-none" />
         <div id="pain" data-animate className={`max-w-3xl mx-auto px-6 md:px-12 text-center relative transition-all duration-700 ${vis("pain") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h2 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight leading-tight mb-6">Jede zweite Couch wird zurückgeschickt.</h2>
-          <p className="text-on-surface-variant text-lg mb-2">Weil sie im Laden gut aussah — aber im eigenen Wohnzimmer nicht. Du kennst das Problem:</p>
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight leading-tight mb-6">Das Gefühl kennst du</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
             {[
-              { icon: "schedule", text: "Stundenlang auf Pinterest scrollen, 47 Tabs offen — und am Ende mehr verwirrt als vorher" },
-              { icon: "payments", text: "Interior-Designer kosten 500€+ — und du weißt vorher nicht, ob dir das Ergebnis überhaupt gefällt" },
-              { icon: "undo", text: "Möbel online bestellen, aufbauen, feststellen dass sie nicht passen — und das Ganze zurückschicken" },
+              { icon: "lightbulb", text: "Du schaust dich um und denkst: Eigentlich müsste ich hier mal was verändern — aber wo fängt man an?" },
+              { icon: "help", text: "Du findest etwas Schönes online, aber du weißt nicht ob es wirklich zu deinem Zimmer passt" },
+              { icon: "refresh", text: "Die gleiche Deko seit Jahren. Du brauchst frischen Wind — aber dir fehlt die richtige Inspiration" },
             ].map((p, i) => (
               <div key={i} className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/30 text-left">
                 <div className="w-12 h-12 rounded-xl bg-error-container/50 flex items-center justify-center mb-4">
@@ -165,7 +164,7 @@ export default function App() {
             ))}
           </div>
           <p className="text-lg text-on-surface-variant mt-8 font-medium">
-            Was wäre, wenn du <span className="text-primary font-bold">vorher sehen</span> könntest, wie dein Zimmer mit neuen Möbeln aussieht — bevor du einen Cent ausgibst?
+            Was wäre, wenn du einfach ein <span className="text-primary font-bold">Foto machen</span> könntest — und sofort siehst, wie schön es werden kann?
           </p>
         </div>
       </section>
