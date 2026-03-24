@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #a43c1a;
+  --color-primary-container: #ff7f57;
+  --color-primary-fixed: #ffdbd0;
+  --color-primary-fixed-dim: #ffb59f;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #6f1c00;
+  --color-on-primary-fixed: #3a0a00;
+  --color-on-primary-fixed-variant: #842503;
+  --color-secondary: #88503e;
+  --color-secondary-container: #ffb59f;
+  --color-secondary-fixed: #ffdbd0;
+  --color-secondary-fixed-dim: #ffb59f;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #7a4433;
+  --color-tertiary: #006a68;
+  --color-tertiary-container: #00b7b5;
+  --color-tertiary-fixed: #6ef7f4;
+  --color-tertiary-fixed-dim: #4bdad8;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #004241;
+  --color-surface: #faf9f5;
+  --color-surface-dim: #dbdad6;
+  --color-surface-bright: #faf9f5;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f4f4f0;
+  --color-surface-container: #efeeea;
+  --color-surface-container-high: #e9e8e4;
+  --color-surface-container-highest: #e3e2df;
+  --color-surface-variant: #e3e2df;
+  --color-surface-tint: #a43c1a;
+  --color-on-surface: #1b1c1a;
+  --color-on-surface-variant: #57423c;
+  --color-inverse-surface: #2f312e;
+  --color-inverse-on-surface: #f2f1ed;
+  --color-inverse-primary: #ffb59f;
+  --color-outline: #8b716a;
+  --color-outline-variant: #dec0b7;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Manrope', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { min-height: 100dvh; margin: 0; padding: 0; overflow-x: hidden; }
+::selection { background: #ffdbd0; color: #1b1c1a; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D4D0CA; border-radius: 99px; }
+
+.shadow-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+.shadow-card-lg { box-shadow: 0 2px 8px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.04); }
+.shadow-card-hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.05); }
+
+.font-display { font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; }
+.glass-panel { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
