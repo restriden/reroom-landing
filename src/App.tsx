@@ -77,6 +77,8 @@ export default function App() {
   const [videoEnded, setVideoEnded] = useState(false);
   const [heroStage, setHeroStage] = useState(0); // 0=hidden, 1=eyebrow, 2=typing line1, 3=typing line2, 4=sub+buttons, 5=stats
   const videoRef = useRef<HTMLVideoElement>(null);
+  const redesignVideoRef = useRef<HTMLVideoElement>(null);
+  const [redesignPaused, setRedesignPaused] = useState(false);
 
   useEffect(() => {
     if (videoEnded && heroStage === 0) setHeroStage(1);
@@ -205,7 +207,7 @@ export default function App() {
             </div>
             <div className="w-px h-8 bg-outline-variant/40" />
             <div className="flex flex-col items-center">
-              <span className="text-2xl font-extrabold text-on-surface font-display">3.500+</span>
+              <span className="text-2xl font-extrabold text-on-surface font-display">30.000+</span>
               <span className="text-xs text-on-surface-variant font-medium">echte Produkte</span>
             </div>
           </div>
@@ -258,7 +260,7 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
             <div id="section-redesign" data-animate className={`transition-all duration-700 ${vis("section-redesign") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               <span className="text-sm font-bold text-primary tracking-[0.15em] uppercase">Full Redesign</span>
-              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Dein Zimmer.<br />Komplett neu gedacht.</h2>
+              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Dein Zuhause.<br />Komplett neu gedacht.</h2>
               <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Fotografiere deinen Raum und lass die KI ein komplett neues Design erstellen — mit echten Möbeln, die du direkt kaufen kannst.</p>
               <ul className="mt-6 space-y-3">
                 {[
@@ -274,10 +276,30 @@ export default function App() {
               </ul>
             </div>
             <div id="redesign-video" data-animate className={`transition-all duration-700 delay-200 ${vis("redesign-video") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <div className="rounded-3xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
-                <video autoPlay muted loop playsInline className="w-full aspect-[4/3] object-cover">
+              <div className="rounded-3xl overflow-hidden border border-outline-variant/30 shadow-card-lg relative group">
+                <video
+                  ref={redesignVideoRef}
+                  autoPlay muted playsInline
+                  className="w-full aspect-[4/3] object-cover"
+                  style={{ playbackRate: 0.75 } as React.CSSProperties}
+                  onLoadedMetadata={(e) => { (e.target as HTMLVideoElement).playbackRate = 0.75; }}
+                  onEnded={() => setRedesignPaused(true)}
+                >
                   <source src="/demo-redesign.mp4" type="video/mp4" />
                 </video>
+                {redesignPaused && (
+                  <button
+                    onClick={() => {
+                      const v = redesignVideoRef.current;
+                      if (v) { v.currentTime = 0; v.play(); setRedesignPaused(false); }
+                    }}
+                    className="absolute inset-0 flex items-center justify-center bg-on-surface/20 backdrop-blur-sm transition-opacity cursor-pointer"
+                  >
+                    <div className="w-16 h-16 rounded-full bg-surface-container-lowest/90 shadow-card-lg flex items-center justify-center hover:scale-105 transition-transform">
+                      <MIcon name="play_arrow" fill size={36} className="text-primary ml-1" />
+                    </div>
+                  </button>
+                )}
               </div>
             </div>
           </div>
