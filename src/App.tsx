@@ -124,7 +124,7 @@ export default function App() {
           </div>
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.05] mb-6"
             style={{ textShadow: "0 0 30px rgba(250,249,245,0.9), 0 0 60px rgba(250,249,245,0.5)" }}>
-            Dein Traumzimmer in<br /><span className="text-primary">10 Sekunden.</span>
+            Dein Traumzimmer in<br /><span className="text-primary">Sekunden.</span>
           </h1>
           <p className="text-lg md:text-xl text-on-surface/75 leading-relaxed max-w-[52ch] mx-auto mb-10"
             style={{ textShadow: "0 0 20px rgba(250,249,245,0.9)" }}>
@@ -297,7 +297,7 @@ export default function App() {
               <p className="text-lg text-inverse-on-surface/60 leading-relaxed max-w-[50ch] mx-auto mb-4">
                 2.000 Credits zum Testen. Keine Kreditkarte. Kein Abo. Wenn du nach dem ersten Design nicht begeistert bist — kein Problem.
               </p>
-              <p className="text-sm text-inverse-on-surface/40 mb-10">Über 3.500 Produkte von echten Shops. 25+ Stile. In unter 10 Sekunden.</p>
+              <p className="text-sm text-inverse-on-surface/40 mb-10">Über 3.500 Produkte von echten Shops. 25+ Stile. In Sekunden.</p>
               <button onClick={goToApp} className="group px-10 py-4 bg-inverse-on-surface text-inverse-surface text-base font-bold rounded-2xl hover:bg-inverse-on-surface/90 active:scale-[0.97] transition-all shadow-[0_8px_30px_-4px_rgba(0,0,0,0.3)] inline-flex items-center gap-3">
                 Jetzt dein Zimmer verwandeln
                 <MIcon name="arrow_forward" size={20} className="transition-transform group-hover:translate-x-1" />
