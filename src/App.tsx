@@ -227,8 +227,6 @@ export default function App() {
                   ref={redesignVideoRef}
                   autoPlay muted playsInline
                   className="w-full aspect-[4/3] object-cover"
-                  style={{ playbackRate: 0.75 } as React.CSSProperties}
-                  onLoadedMetadata={(e) => { (e.target as HTMLVideoElement).playbackRate = 0.75; }}
                   onEnded={() => setRedesignPaused(true)}
                 >
                   <source src="/demo-redesign.mp4" type="video/mp4" />
@@ -256,61 +254,55 @@ export default function App() {
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/30 to-surface pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
-            <div id="deko-videos" data-animate className={`order-2 md:order-1 transition-all duration-700 delay-200 ${vis("deko-videos") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { video: "/demo-ostern.mp4", label: "Ostern" },
-                  { video: "/demo-romantisch.mp4", label: "Romantischer Abend" },
-                ].map((uc, i) => (
-                  <div key={i} className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
-                    <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover">
-                      <source src={uc.video} type="video/mp4" />
-                    </video>
-                    <div className="p-3 bg-surface-container-lowest text-center">
-                      <span className="text-sm font-bold text-on-surface">{uc.label}</span>
+          <div id="section-deko" data-animate className={`transition-all duration-700 ${vis("section-deko") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-10 items-center max-w-6xl mx-auto">
+              {/* Video links — Ostern */}
+              <div className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
+                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover">
+                  <source src="/demo-ostern.mp4" type="video/mp4" />
+                </video>
+                <div className="p-3 bg-surface-container-lowest text-center">
+                  <span className="text-sm font-bold text-on-surface">Ostern</span>
+                </div>
+              </div>
+
+              {/* Text mittig */}
+              <div className="text-center max-w-sm mx-auto">
+                <span className="text-sm font-bold text-tertiary tracking-[0.15em] uppercase">Neu: Tisch &amp; Deko</span>
+                <h2 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">
+                  Dein Tisch, fertig<br /><span className="text-tertiary">dekoriert.</span>
+                </h2>
+                <p className="text-base text-on-surface-variant mt-4 leading-relaxed">
+                  Foto vom Tisch machen, Anlass wählen — und in wenigen Sekunden siehst du, wie dein Tisch perfekt gedeckt aussieht. Jedes Teil direkt kaufbar.
+                </p>
+                {/* Anlass-Chips */}
+                <div className="flex flex-wrap justify-center gap-2 mt-6">
+                  {[
+                    { icon: "egg_alt", label: "Ostern", color: "bg-[#FFF3E0] text-[#E65100] border-[#FFE0B2]" },
+                    { icon: "park", label: "Weihnachten", color: "bg-[#E8F5E9] text-[#2E7D32] border-[#C8E6C9]" },
+                    { icon: "cake", label: "Geburtstag", color: "bg-primary-fixed/50 text-primary border-primary-fixed-dim/50" },
+                    { icon: "local_florist", label: "Frühling", color: "bg-[#FCE4EC] text-[#C62828] border-[#F8BBD0]" },
+                    { icon: "celebration", label: "Silvester", color: "bg-[#EDE7F6] text-[#4527A0] border-[#D1C4E9]" },
+                    { icon: "dinner_dining", label: "Dinner", color: "bg-surface-container-high text-on-surface border-outline-variant/40" },
+                    { icon: "edit", label: "Eigene Idee...", color: "bg-surface-container text-on-surface-variant border-outline-variant/30" },
+                  ].map((o, i) => (
+                    <div key={i} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold cursor-default select-none ${o.color}`}>
+                      <MIcon name={o.icon} fill size={14} />
+                      {o.label}
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-              {/* Anlass-Chips */}
-              <div className="flex flex-wrap gap-2 mt-5">
-                {[
-                  { icon: "egg_alt", label: "Ostern", color: "bg-[#FFF3E0] text-[#E65100] border-[#FFE0B2]" },
-                  { icon: "park", label: "Weihnachten", color: "bg-[#E8F5E9] text-[#2E7D32] border-[#C8E6C9]" },
-                  { icon: "cake", label: "Geburtstag", color: "bg-primary-fixed/50 text-primary border-primary-fixed-dim/50" },
-                  { icon: "local_florist", label: "Frühling", color: "bg-[#FCE4EC] text-[#C62828] border-[#F8BBD0]" },
-                  { icon: "celebration", label: "Silvester", color: "bg-[#EDE7F6] text-[#4527A0] border-[#D1C4E9]" },
-                  { icon: "dinner_dining", label: "Dinner Party", color: "bg-surface-container-high text-on-surface border-outline-variant/40" },
-                  { icon: "edit", label: "Eigene Idee...", color: "bg-surface-container text-on-surface-variant border-outline-variant/30" },
-                ].map((o, i) => (
-                  <div key={i} className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full border text-xs font-bold cursor-default select-none ${o.color}`}>
-                    <MIcon name={o.icon} fill size={16} />
-                    {o.label}
-                  </div>
-                ))}
+
+              {/* Video rechts — Romantischer Abend */}
+              <div className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
+                <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover">
+                  <source src="/demo-romantisch.mp4" type="video/mp4" />
+                </video>
+                <div className="p-3 bg-surface-container-lowest text-center">
+                  <span className="text-sm font-bold text-on-surface">Romantischer Abend</span>
+                </div>
               </div>
-            </div>
-            <div id="section-deko" data-animate className={`order-1 md:order-2 transition-all duration-700 ${vis("section-deko") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <span className="text-sm font-bold text-tertiary tracking-[0.15em] uppercase">Neu: Tisch &amp; Deko</span>
-              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">
-                Ostern, Weihnachten,<br />Geburtstag —<br /><span className="text-tertiary">dein Tisch, fertig dekoriert.</span>
-              </h2>
-              <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">
-                Foto vom Tisch machen, Anlass wählen oder beschreiben — und in wenigen Sekunden siehst du, wie dein Tisch perfekt gedeckt aussieht. Jedes Teil direkt kaufbar.
-              </p>
-              <ul className="mt-6 space-y-3">
-                {[
-                  { icon: "photo_camera", text: "Einfach deinen Tisch fotografieren" },
-                  { icon: "celebration", text: "Anlass wählen oder eigene Idee beschreiben" },
-                  { icon: "shopping_bag", text: "Geschirr, Kerzen, Blumen — alles kaufbar" },
-                ].map((f, i) => (
-                  <li key={i} className="flex items-center gap-3 text-on-surface-variant">
-                    <MIcon name={f.icon} fill size={20} className="text-tertiary" />
-                    <span className="text-sm font-medium">{f.text}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
