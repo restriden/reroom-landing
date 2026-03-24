@@ -173,37 +173,27 @@ export default function App() {
       {/* ═══════════════ PAIN — Frau-zu-Frau ═══════════════ */}
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/40 to-surface pointer-events-none" />
-        <div id="pain" data-animate className={`max-w-3xl mx-auto px-6 md:px-12 relative transition-all duration-700 ${vis("pain") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h2 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight leading-tight mb-4 text-center">
+        <div id="pain" data-animate className={`max-w-2xl mx-auto px-6 md:px-12 relative transition-all duration-700 ${vis("pain") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight leading-tight mb-8 text-center">
             Kennst du das?
           </h2>
-          <p className="text-center text-on-surface-variant text-lg mb-10 max-w-[50ch] mx-auto">
-            Du weißt genau, was dir gefällt, wenn du es siehst. Das war noch nie das Problem.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { icon: "format_paint", title: "Die Wandfarbe", text: "200 Farbtöne im Baumarkt, ein winziges Kärtchen — und die leise Angst, dass \u201EGreige\u201C an der Wand einfach nur grau aussieht." },
-              { icon: "weekend", title: "Der Fehlkauf", text: "Das Sofa sah online toll aus. In deinem Wohnzimmer wirkt es wie ein Fremdkörper. Retournieren? Mit dem riesigen Karton? Nee." },
-              { icon: "visibility_off", title: "Die leere Ecke", text: "Da fehlt irgendwas, aber du kommst einfach nicht drauf was. Jede Idee fühlt sich an wie ein Blindflug mit echtem Geld." },
-            ].map((p, i) => (
-              <div key={i} className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/30 text-left">
-                <div className="w-12 h-12 rounded-xl bg-error-container/50 flex items-center justify-center mb-4">
-                  <MIcon name={p.icon} size={24} className="text-on-error-container" />
-                </div>
-                <h3 className="text-sm font-bold text-on-surface mb-1.5">{p.title}</h3>
-                <p className="text-sm text-on-surface-variant leading-relaxed">{p.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 bg-surface-container rounded-2xl p-6 md:p-8 border border-outline-variant/20 text-center">
-            <p className="text-on-surface-variant leading-relaxed text-base">
-              Also passiert... erstmal nichts. Wieder ein Monat. Das Zimmer sieht noch genauso aus.
-              <br className="hidden md:block" />
-              Und dieser Gedanke bleibt: <span className="text-on-surface font-semibold italic">&ldquo;Irgendwann mache ich das mal.&rdquo;</span>
+          <div className="text-on-surface-variant text-lg md:text-xl leading-relaxed space-y-5">
+            <p>
+              Du weißt genau, was dir gefällt, wenn du es siehst. Das war noch nie das Problem.
             </p>
-            <p className="text-primary font-bold mt-4 text-lg">
+            <p>
+              Das Problem ist die <span className="text-on-surface font-semibold">Wandfarbe</span>. 200 Farbtöne im Baumarkt, ein winziges Kärtchen — und die leise Angst, dass „Greige" an der Wand einfach nur grau aussieht.
+            </p>
+            <p>
+              Das Problem ist der <span className="text-on-surface font-semibold">Fehlkauf</span>. Das Sofa sah online toll aus. In deinem Wohnzimmer wirkt es wie ein Fremdkörper. Retournieren? Mit dem riesigen Karton? Nee.
+            </p>
+            <p>
+              Das Problem ist die <span className="text-on-surface font-semibold">leere Ecke</span>. Da fehlt irgendwas, aber du kommst einfach nicht drauf was. Jede Idee fühlt sich an wie ein Blindflug mit echtem Geld.
+            </p>
+            <p>
+              Also passiert... erstmal nichts. Wieder ein Monat. Das Zimmer sieht noch genauso aus. Und dieser Gedanke bleibt: <span className="text-on-surface font-semibold italic">&ldquo;Irgendwann mache ich das mal.&rdquo;</span>
+            </p>
+            <p className="text-primary font-bold text-xl md:text-2xl pt-4 text-center">
               Was wäre, wenn du es einfach sehen könntest — bevor du irgendwas kaufst?
             </p>
           </div>
