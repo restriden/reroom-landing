@@ -1,36 +1,6 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const APP_URL = "https://reroom.app"; // TODO: update with real app URL
-
-function Typewriter({ text, startDelay = 0, speed = 35, className = "", onDone }: { text: string; startDelay?: number; speed?: number; className?: string; onDone?: () => void }) {
-  const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const doneRef = useRef(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setStarted(true), startDelay);
-    return () => clearTimeout(t);
-  }, [startDelay]);
-
-  useEffect(() => {
-    if (!started) return;
-    if (count >= text.length) {
-      if (!doneRef.current) { doneRef.current = true; onDone?.(); }
-      return;
-    }
-    const t = setTimeout(() => setCount(c => c + 1), speed);
-    return () => clearTimeout(t);
-  }, [started, count, text.length, speed, onDone]);
-
-  const displayed = useMemo(() => text.slice(0, count), [text, count]);
-
-  return (
-    <span className={className}>
-      {displayed}
-      {started && count < text.length && <span className="inline-block w-[3px] h-[0.85em] bg-primary ml-0.5 align-middle animate-pulse" />}
-    </span>
-  );
-}
 
 function MIcon({ name, fill, size = 24, className = "" }: { name: string; fill?: boolean; size?: number; className?: string }) {
   return (
@@ -149,30 +119,16 @@ export default function App() {
         <div className="relative z-10 text-center max-w-3xl mx-auto px-6 py-20">
           {/* Eyebrow — fade in */}
           <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/40 mb-8 shadow-card transition-all duration-700 ${heroStage >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-            onTransitionEnd={() => heroStage === 1 && setHeroStage(2)}>
+            onTransitionEnd={() => { if (heroStage === 1) setHeroStage(2); }}>
             <MIcon name="auto_awesome" fill size={18} className="text-primary" />
             <span className="text-sm font-bold text-primary tracking-wide">Dein persönlicher KI-Interior-Designer</span>
           </div>
 
-          {/* Headline — typewriter */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.05] mb-6 min-h-[2.2em]"
-            style={{ textShadow: "0 0 30px rgba(250,249,245,0.9), 0 0 60px rgba(250,249,245,0.5)" }}>
-            {heroStage >= 2 && (
-              <Typewriter
-                text="Sieh dein Zuhause so,"
-                speed={40}
-                onDone={() => setHeroStage(3)}
-              />
-            )}
-            {heroStage >= 2 && <br />}
-            {heroStage >= 3 && (
-              <Typewriter
-                text="wie du es dir vorstellst."
-                speed={40}
-                className="text-primary"
-                onDone={() => setTimeout(() => setHeroStage(4), 300)}
-              />
-            )}
+          {/* Headline — fade in */}
+          <h1 className={`font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.05] mb-6 transition-all duration-800 ${heroStage >= 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            style={{ textShadow: "0 0 30px rgba(250,249,245,0.9), 0 0 60px rgba(250,249,245,0.5)" }}
+            onTransitionEnd={() => heroStage === 2 && setHeroStage(4)}>
+            Sieh dein Zuhause so,<br /><span className="text-primary">wie du es dir vorstellst.</span>
           </h1>
 
           {/* Subline — fade in */}
