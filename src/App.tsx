@@ -355,6 +355,39 @@ export default function App() {
         </div>
       </section>
 
+      {/* ═══════════════ ZIMMER EINRICHTEN ═══════════════ */}
+      <section className="py-20 md:py-28 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/30 to-surface pointer-events-none" />
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
+            <div id="zimmer-video" data-animate className={`order-2 md:order-1 transition-all duration-700 ${vis("zimmer-video") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <div className="rounded-3xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
+                <video autoPlay muted loop playsInline className="w-full aspect-[4/3] object-cover" style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}>
+                  <source src="/demo-kinderzimmer.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+            <div id="section-zimmer" data-animate className={`order-1 md:order-2 transition-all duration-700 ${vis("section-zimmer") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <span className="text-sm font-bold text-secondary tracking-[0.15em] uppercase">Zimmer einrichten</span>
+              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Jedes Zimmer.<br /><span className="text-secondary">Perfekt eingerichtet.</span></h2>
+              <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Kinderzimmer, Schlafzimmer, Home-Office — fotografiere den Raum und die KI richtet ihn komplett ein. Mit echten Möbeln aus über 30.000 Produkten.</p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  { icon: "child_care", text: "Kinderzimmer altersgerecht gestalten" },
+                  { icon: "bed", text: "Schlafzimmer, Bad, Küche — jeder Raum" },
+                  { icon: "shopping_bag", text: "Alle Möbel direkt kaufbar mit Preisvergleich" },
+                ].map((f, i) => (
+                  <li key={i} className="flex items-center gap-3 text-on-surface-variant">
+                    <MIcon name={f.icon} fill size={20} className="text-secondary" />
+                    <span className="text-sm font-medium">{f.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════════ TISCH-DEKO — Saisonale Dekoration ═══════════════ */}
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/30 to-surface pointer-events-none" />
