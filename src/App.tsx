@@ -169,38 +169,75 @@ export default function App() {
         </div>
       </section>
 
-      {/* USE CASES — Nicht nur ganze Zimmer */}
+      {/* FULL REDESIGN */}
       <section className="py-20 md:py-28 relative">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div id="section-usecases" data-animate className={`text-center mb-14 transition-all duration-700 ${vis("section-usecases") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <span className="text-sm font-bold text-primary tracking-[0.15em] uppercase">Mehr als nur Zimmer</span>
-            <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3">Dekoriere für jeden Anlass</h2>
-            <p className="text-lg text-on-surface-variant mt-3 max-w-[55ch] mx-auto">Ostern, Weihnachten, romantischer Abend — fotografiere deinen Tisch oder deine Ecke, wähle den Anlass und lass die KI zaubern.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
+            <div id="section-redesign" data-animate className={`transition-all duration-700 ${vis("section-redesign") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <span className="text-sm font-bold text-primary tracking-[0.15em] uppercase">Full Redesign</span>
+              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Dein Zimmer.<br />Komplett neu gedacht.</h2>
+              <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Fotografiere deinen Raum und lass die KI ein komplett neues Design erstellen — mit echten Möbeln, die du direkt kaufen kannst.</p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  { icon: "palette", text: "25+ Stile frei kombinierbar" },
+                  { icon: "tune", text: "Intensität stufenlos einstellbar" },
+                  { icon: "shopping_bag", text: "Jedes Möbelstück klickbar & kaufbar" },
+                ].map((f, i) => (
+                  <li key={i} className="flex items-center gap-3 text-on-surface-variant">
+                    <MIcon name={f.icon} fill size={20} className="text-primary" />
+                    <span className="text-sm font-medium">{f.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div id="redesign-video" data-animate className={`transition-all duration-700 delay-200 ${vis("redesign-video") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <div className="rounded-3xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
+                <video autoPlay muted loop playsInline className="w-full aspect-[4/3] object-cover">
+                  <source src="/demo-redesign.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {[
-              { video: "/demo-ostern.mp4", label: "Ostern", desc: "Tisch fotografieren, Saisonalität wählen — fertig.", icon: "egg_alt" },
-              { video: "/demo-romantisch.mp4", label: "Romantischer Abend", desc: "Stimmung setzen mit Kerzen, Blumen und warmem Licht.", icon: "favorite" },
-            ].map((uc, i) => (
-              <div key={i} id={`usecase-${i}`} data-animate className={`transition-all duration-700 ${vis(`usecase-${i}`) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: `${i * 150}ms` }}>
-                <div className="rounded-3xl overflow-hidden border border-outline-variant/30 bg-surface-container-lowest shadow-card-lg hover:shadow-card-hover transition-shadow">
-                  <div className="aspect-[4/3] relative">
-                    <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-                      <source src={uc.video} type="video/mp4" />
-                    </video>
-                  </div>
-                  <div className="p-6 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-primary-fixed/40 flex items-center justify-center shrink-0">
-                      <MIcon name={uc.icon} fill size={24} className="text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-on-surface">{uc.label}</h3>
-                      <p className="text-sm text-on-surface-variant">{uc.desc}</p>
-                    </div>
+        </div>
+      </section>
+
+      {/* DEKORIEREN */}
+      <section className="py-20 md:py-28 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/30 to-surface pointer-events-none" />
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-6xl mx-auto">
+            <div id="deko-videos" data-animate className={`order-2 md:order-1 grid grid-cols-2 gap-4 transition-all duration-700 delay-200 ${vis("deko-videos") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              {[
+                { video: "/demo-ostern.mp4", label: "Ostern" },
+                { video: "/demo-romantisch.mp4", label: "Romantischer Abend" },
+              ].map((uc, i) => (
+                <div key={i} className="rounded-2xl overflow-hidden border border-outline-variant/30 shadow-card-lg">
+                  <video autoPlay muted loop playsInline className="w-full aspect-[3/4] object-cover">
+                    <source src={uc.video} type="video/mp4" />
+                  </video>
+                  <div className="p-3 bg-surface-container-lowest text-center">
+                    <span className="text-sm font-bold text-on-surface">{uc.label}</span>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div id="section-deko" data-animate className={`order-1 md:order-2 transition-all duration-700 ${vis("section-deko") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <span className="text-sm font-bold text-tertiary tracking-[0.15em] uppercase">Dekorieren</span>
+              <h2 className="font-display text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mt-3 leading-tight">Dekoriere für<br />jeden Anlass.</h2>
+              <p className="text-lg text-on-surface-variant mt-4 leading-relaxed">Ostern, Weihnachten, romantischer Abend — fotografiere deinen Tisch oder deine Ecke, wähle den Anlass und die KI zaubert die perfekte Deko.</p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  { icon: "calendar_month", text: "Saisonale Anlässe auf Knopfdruck" },
+                  { icon: "photo_camera", text: "Tisch, Ecke oder ganzen Raum dekorieren" },
+                  { icon: "auto_awesome", text: "KI wählt passende Deko-Elemente" },
+                ].map((f, i) => (
+                  <li key={i} className="flex items-center gap-3 text-on-surface-variant">
+                    <MIcon name={f.icon} fill size={20} className="text-tertiary" />
+                    <span className="text-sm font-medium">{f.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
