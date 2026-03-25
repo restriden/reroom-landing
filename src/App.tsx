@@ -142,13 +142,13 @@ export default function App() {
           <h1 className={`font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.05] mb-6 transition-all duration-800 ${heroStage >= 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             style={{ textShadow: "0 0 30px rgba(250,249,245,0.9), 0 0 60px rgba(250,249,245,0.5)" }}
             onTransitionEnd={() => heroStage === 2 && setHeroStage(4)}>
-            Sieh dein Zuhause so,<br /><span className="text-primary">wie du es dir vorstellst.</span>
+            Bevor du kaufst —<br /><span className="text-primary">sieh, wie es wirklich aussieht.</span>
           </h1>
 
           {/* Subline — fade in */}
           <p className={`text-lg md:text-xl text-on-surface/75 leading-relaxed max-w-[52ch] mx-auto mb-10 transition-all duration-700 ${heroStage >= 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             style={{ textShadow: "0 0 20px rgba(250,249,245,0.9)" }}>
-            Du weißt, dass da mehr geht — aber was genau? Foto machen, Stil wählen, und in wenigen Sekunden siehst du es.
+            Ein Foto, ein Stil, wenige Sekunden. Und du weißt endlich, ob das Sofa, die Wandfarbe oder die Tisch-Deko wirklich passt — bevor du einen Cent ausgibst.
           </p>
 
           {/* Buttons — fade in */}
