@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const APP_URL = "https://reroom.app"; // TODO: update with real app URL
+type Page = "home" | "datenschutz" | "impressum" | "kontakt";
 
 function MIcon({ name, fill, size = 24, className = "" }: { name: string; fill?: boolean; size?: number; className?: string }) {
   return (
@@ -41,7 +42,361 @@ function BeforeAfter() {
   );
 }
 
+function LegalShell({ title, children, onBack }: { title: string; children: React.ReactNode; onBack: () => void }) {
+  return (
+    <div className="min-h-[100dvh] w-full bg-surface">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
+          <button onClick={onBack} className="flex items-center gap-2.5 hover:opacity-70 transition-opacity">
+            <MIcon name="auto_awesome" fill size={26} className="text-primary" />
+            <span className="font-display text-xl font-extrabold text-on-surface tracking-tight">Reroom</span>
+          </button>
+          <button onClick={onBack} className="text-sm font-semibold text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1">
+            <MIcon name="arrow_back" size={18} />
+            Zurück
+          </button>
+        </div>
+      </nav>
+      <div className="pt-28 pb-20 max-w-3xl mx-auto px-6 md:px-12">
+        <h1 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight mb-10">{title}</h1>
+        <div className="prose-legal text-on-surface-variant text-[15px] leading-relaxed space-y-6">
+          {children}
+        </div>
+      </div>
+      <footer className="border-t border-outline-variant/30 py-8">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center text-sm text-outline">
+          &copy; {new Date().getFullYear()} Simpli GmbH. Alle Rechte vorbehalten.
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function ImpressumPage({ onBack }: { onBack: () => void }) {
+  return (
+    <LegalShell title="Impressum" onBack={onBack}>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Angaben gemäß § 5 TMG</h2>
+        <p>
+          Simpli GmbH<br />
+          Am Lenkwerk 9<br />
+          33609 Bielefeld<br />
+          Deutschland
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Vertreten durch</h2>
+        <p>Geschäftsführer: Tim Hoppe &amp; Dennis Melson</p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Kontakt</h2>
+        <p>
+          Telefon: +49 15888 725814<br />
+          E-Mail: info@simpli.bot
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Registereintrag</h2>
+        <p>
+          Handelsregister: Amtsgericht Bielefeld<br />
+          Registernummer: HRB 44387
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Umsatzsteuer-ID</h2>
+        <p>
+          Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />
+          DE326245802
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+        <p>
+          Tim Hoppe<br />
+          Am Lenkwerk 9<br />
+          33609 Bielefeld
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">EU-Streitschlichtung</h2>
+        <p>
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit.
+          Unsere E-Mail-Adresse finden Sie oben im Impressum.
+        </p>
+        <p>
+          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Haftung für Inhalte</h2>
+        <p>
+          Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den
+          allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
+          verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen
+          zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+        <p>
+          Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen
+          Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt
+          der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden
+          Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Haftung für Links</h2>
+        <p>
+          Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben.
+          Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der
+          verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+          Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.
+          Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Urheberrecht</h2>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen
+          Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
+          Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+          Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+        </p>
+      </div>
+    </LegalShell>
+  );
+}
+
+function DatenschutzPage({ onBack }: { onBack: () => void }) {
+  return (
+    <LegalShell title="Datenschutzerklärung" onBack={onBack}>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">1. Datenschutz auf einen Blick</h2>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Allgemeine Hinweise</h3>
+        <p>
+          Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten
+          passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie
+          persönlich identifiziert werden können. Ausführliche Informationen zum Thema Datenschutz entnehmen
+          Sie unserer unter diesem Text aufgeführten Datenschutzerklärung.
+        </p>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Datenerfassung auf dieser Website</h3>
+        <p>
+          <strong className="text-on-surface">Wer ist verantwortlich für die Datenerfassung auf dieser Website?</strong><br />
+          Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber:<br /><br />
+          Simpli GmbH<br />
+          Am Lenkwerk 9<br />
+          33609 Bielefeld<br />
+          E-Mail: info@simpli.bot<br />
+          Telefon: +49 15888 725814
+        </p>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Wie erfassen wir Ihre Daten?</h3>
+        <p>
+          Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z.&thinsp;B. um
+          Daten handeln, die Sie in ein Kontaktformular eingeben.
+        </p>
+        <p>
+          Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere
+          IT-Systeme erfasst. Das sind vor allem technische Daten (z.&thinsp;B. Internetbrowser, Betriebssystem oder
+          Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch, sobald Sie diese Website betreten.
+        </p>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Wofür nutzen wir Ihre Daten?</h3>
+        <p>
+          Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten.
+          Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden.
+        </p>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Welche Rechte haben Sie bezüglich Ihrer Daten?</h3>
+        <p>
+          Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer
+          gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung
+          oder Löschung dieser Daten zu verlangen. Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben,
+          können Sie diese Einwilligung jederzeit für die Zukunft widerrufen. Außerdem haben Sie das Recht,
+          unter bestimmten Umständen die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen.
+          Des Weiteren steht Ihnen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">2. Hosting</h2>
+        <p>
+          Diese Website wird bei einem externen Dienstleister gehostet (Hoster). Die personenbezogenen Daten,
+          die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei kann
+          es sich v.&thinsp;a. um IP-Adressen, Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten,
+          Kontaktdaten, Namen, Websitezugriffe und sonstige Daten, die über eine Website generiert werden, handeln.
+        </p>
+        <p>
+          Der Einsatz des Hosters erfolgt zum Zwecke der Vertragserfüllung gegenüber unseren potenziellen und
+          bestehenden Kunden (Art. 6 Abs. 1 lit. b DSGVO) und im Interesse einer sicheren, schnellen und
+          effizienten Bereitstellung unseres Online-Angebots durch einen professionellen Anbieter (Art. 6 Abs. 1
+          lit. f DSGVO).
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">3. Allgemeine Hinweise und Pflichtinformationen</h2>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Datenschutz</h3>
+        <p>
+          Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre
+          personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie
+          dieser Datenschutzerklärung.
+        </p>
+        <p>
+          Wir weisen darauf hin, dass die Datenübertragung im Internet (z.&thinsp;B. bei der Kommunikation per E-Mail)
+          Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist
+          nicht möglich.
+        </p>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>
+        <p>
+          Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen Einwilligung möglich. Sie können
+          eine bereits erteilte Einwilligung jederzeit widerrufen. Die Rechtmäßigkeit der bis zum Widerruf
+          erfolgten Datenverarbeitung bleibt vom Widerruf unberührt.
+        </p>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Recht auf Datenübertragbarkeit</h3>
+        <p>
+          Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung oder in Erfüllung eines Vertrags
+          automatisiert verarbeiten, an sich oder an einen Dritten in einem gängigen, maschinenlesbaren Format
+          aushändigen zu lassen. Sofern Sie die direkte Übertragung der Daten an einen anderen Verantwortlichen
+          verlangen, erfolgt dies nur, soweit es technisch machbar ist.
+        </p>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Auskunft, Löschung und Berichtigung</h3>
+        <p>
+          Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf unentgeltliche
+          Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck
+          der Datenverarbeitung und ggf. ein Recht auf Berichtigung oder Löschung dieser Daten. Hierzu sowie
+          zu weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit an uns wenden.
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">4. Datenerfassung auf dieser Website</h2>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Server-Log-Dateien</h3>
+        <p>
+          Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien,
+          die Ihr Browser automatisch an uns übermittelt. Dies sind:
+        </p>
+        <ul className="list-disc pl-6 space-y-1 mt-2">
+          <li>Browsertyp und Browserversion</li>
+          <li>Verwendetes Betriebssystem</li>
+          <li>Referrer URL</li>
+          <li>Hostname des zugreifenden Rechners</li>
+          <li>Uhrzeit der Serveranfrage</li>
+          <li>IP-Adresse</li>
+        </ul>
+        <p className="mt-3">
+          Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.
+          Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">5. Plugins und Tools</h2>
+        <h3 className="font-semibold text-on-surface mt-4 mb-1">Google Fonts</h3>
+        <p>
+          Diese Seite nutzt zur einheitlichen Darstellung von Schriftarten so genannte Google Fonts,
+          die von Google bereitgestellt werden. Beim Aufruf einer Seite lädt Ihr Browser die benötigten
+          Fonts in Ihren Browsercache, um Texte und Schriftarten korrekt anzuzeigen.
+        </p>
+        <p>
+          Zu diesem Zweck muss der von Ihnen verwendete Browser Verbindung zu den Servern von Google aufnehmen.
+          Hierdurch erlangt Google Kenntnis darüber, dass über Ihre IP-Adresse diese Website aufgerufen wurde.
+          Die Nutzung von Google Fonts erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">6. KI-generierte Inhalte</h2>
+        <p>
+          Reroom nutzt künstliche Intelligenz (KI) zur Generierung von Raumdesign-Vorschlägen. Dabei werden
+          von Ihnen hochgeladene Fotos an KI-Dienste (Google Gemini, OpenAI) übermittelt und verarbeitet.
+          Die hochgeladenen Bilder werden ausschließlich zur Erstellung der Designvorschläge verwendet
+          und nicht für Trainingszwecke der KI-Modelle eingesetzt. Die Verarbeitung erfolgt auf Grundlage
+          Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) bzw. zur Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO).
+        </p>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">7. Zahlungsabwicklung</h2>
+        <p>
+          Für die Zahlungsabwicklung nutzen wir den Dienst Stripe (Stripe, Inc., 510 Townsend Street,
+          San Francisco, CA 94103, USA). Bei einem Kauf werden die zur Zahlungsabwicklung erforderlichen
+          Daten an Stripe übermittelt. Stripe verarbeitet diese Daten gemäß seiner eigenen Datenschutzrichtlinie.
+          Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).
+        </p>
+      </div>
+    </LegalShell>
+  );
+}
+
+function KontaktPage({ onBack }: { onBack: () => void }) {
+  return (
+    <LegalShell title="Kontakt" onBack={onBack}>
+      <p className="text-lg text-on-surface">
+        Du hast eine Frage, ein Problem oder möchtest uns einfach Feedback geben? Wir freuen uns, von dir zu hören.
+      </p>
+      <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30 space-y-5">
+        <div className="flex items-start gap-4">
+          <div className="w-10 h-10 rounded-xl bg-primary-fixed/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <MIcon name="mail" fill size={22} className="text-primary" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-on-surface">E-Mail</h3>
+            <a href="mailto:info@simpli.bot" className="text-primary hover:underline">info@simpli.bot</a>
+            <p className="text-sm text-on-surface-variant mt-1">Wir antworten in der Regel innerhalb von 24 Stunden.</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-4">
+          <div className="w-10 h-10 rounded-xl bg-primary-fixed/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <MIcon name="phone" fill size={22} className="text-primary" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-on-surface">Telefon</h3>
+            <a href="tel:+4915888725814" className="text-primary hover:underline">+49 15888 725814</a>
+            <p className="text-sm text-on-surface-variant mt-1">Mo–Fr, 9–17 Uhr</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-4">
+          <div className="w-10 h-10 rounded-xl bg-primary-fixed/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <MIcon name="location_on" fill size={22} className="text-primary" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-on-surface">Adresse</h3>
+            <p>
+              Simpli GmbH<br />
+              Am Lenkwerk 9<br />
+              33609 Bielefeld
+            </p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 className="text-lg font-bold text-on-surface mb-2">Betreiber</h2>
+        <p>
+          Reroom ist ein Produkt der Simpli GmbH.<br />
+          Geschäftsführer: Tim Hoppe &amp; Dennis Melson<br />
+          Handelsregister: Amtsgericht Bielefeld, HRB 44387<br />
+          USt-IdNr: DE326245802
+        </p>
+      </div>
+    </LegalShell>
+  );
+}
+
 export default function App() {
+  const [page, setPage] = useState<Page>("home");
+  const navigate = useCallback((p: Page) => {
+    setPage(p);
+    window.location.hash = p === "home" ? "" : p;
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Hash routing
+  useEffect(() => {
+    const onHash = () => {
+      const hash = window.location.hash.replace("#", "") as Page;
+      if (["datenschutz", "impressum", "kontakt"].includes(hash)) setPage(hash);
+      else setPage("home");
+    };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  if (page === "impressum") return <ImpressumPage onBack={() => navigate("home")} />;
+  if (page === "datenschutz") return <DatenschutzPage onBack={() => navigate("home")} />;
+  if (page === "kontakt") return <KontaktPage onBack={() => navigate("home")} />;
+
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [videoEnded, setVideoEnded] = useState(false);
@@ -629,11 +984,11 @@ export default function App() {
               <span className="font-display text-lg font-bold text-on-surface tracking-tight">Reroom</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-on-surface-variant">
-              <a href="#" className="hover:text-on-surface transition-colors">Datenschutz</a>
-              <a href="#" className="hover:text-on-surface transition-colors">Impressum</a>
-              <a href="#" className="hover:text-on-surface transition-colors">Kontakt</a>
+              <button onClick={() => navigate("datenschutz")} className="hover:text-on-surface transition-colors">Datenschutz</button>
+              <button onClick={() => navigate("impressum")} className="hover:text-on-surface transition-colors">Impressum</button>
+              <button onClick={() => navigate("kontakt")} className="hover:text-on-surface transition-colors">Kontakt</button>
             </div>
-            <p className="text-sm text-outline">&copy; {new Date().getFullYear()} Reroom. Alle Rechte vorbehalten.</p>
+            <p className="text-sm text-outline">&copy; {new Date().getFullYear()} Simpli GmbH. Alle Rechte vorbehalten.</p>
           </div>
         </div>
       </footer>
