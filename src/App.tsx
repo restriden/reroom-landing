@@ -381,22 +381,6 @@ export default function App() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Hash routing
-  useEffect(() => {
-    const onHash = () => {
-      const hash = window.location.hash.replace("#", "") as Page;
-      if (["datenschutz", "impressum", "kontakt"].includes(hash)) setPage(hash);
-      else setPage("home");
-    };
-    onHash();
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
-  }, []);
-
-  if (page === "impressum") return <ImpressumPage onBack={() => navigate("home")} />;
-  if (page === "datenschutz") return <DatenschutzPage onBack={() => navigate("home")} />;
-  if (page === "kontakt") return <KontaktPage onBack={() => navigate("home")} />;
-
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [videoEnded, setVideoEnded] = useState(false);
@@ -412,6 +396,18 @@ export default function App() {
   const romantischVideoRef = useRef<HTMLVideoElement>(null);
   const [romantischPaused, setRomantischPaused] = useState(false);
   const [osternFinished, setOsternFinished] = useState(false);
+
+  // Hash routing
+  useEffect(() => {
+    const onHash = () => {
+      const hash = window.location.hash.replace("#", "") as Page;
+      if (["datenschutz", "impressum", "kontakt"].includes(hash)) setPage(hash);
+      else setPage("home");
+    };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
 
   useEffect(() => {
     if (videoEnded && heroStage === 0) setHeroStage(1);
@@ -436,6 +432,10 @@ export default function App() {
 
   const vis = (id: string) => visibleSections.has(id);
   const goToApp = () => window.location.href = APP_URL;
+
+  if (page === "impressum") return <ImpressumPage onBack={() => navigate("home")} />;
+  if (page === "datenschutz") return <DatenschutzPage onBack={() => navigate("home")} />;
+  if (page === "kontakt") return <KontaktPage onBack={() => navigate("home")} />;
 
   return (
     <div className="min-h-[100dvh] w-full bg-surface overflow-x-hidden">
