@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const APP_URL = "https://app.reroom.it";
+const APP_URL = "https://web-production-e82a5.up.railway.app";
 type Page = "home" | "datenschutz" | "impressum" | "kontakt";
 
 function MIcon({ name, fill, size = 24, className = "" }: { name: string; fill?: boolean; size?: number; className?: string }) {
