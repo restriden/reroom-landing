@@ -184,31 +184,71 @@ export default function App() {
         </div>
       </section>
 
-      {/* ═══════════════ PAIN — Frau-zu-Frau ═══════════════ */}
+      {/* ═══════════════ PAIN — Long-form, direkt ═══════════════ */}
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-container-low/40 to-surface pointer-events-none" />
         <div id="pain" data-animate className={`max-w-2xl mx-auto px-6 md:px-12 relative transition-all duration-700 ${vis("pain") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h2 className="font-display text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight leading-tight mb-8 text-center">
-            Kennst du das?
-          </h2>
+          <p className="text-on-surface-variant text-sm font-bold tracking-[0.15em] uppercase mb-6 text-center">Ein ehrliches Wort</p>
           <div className="text-on-surface-variant text-lg md:text-xl leading-relaxed space-y-5">
-            <p>
-              Du weißt genau, was dir gefällt, wenn du es siehst. Das war noch nie das Problem.
+            <p className="text-on-surface font-semibold text-xl md:text-2xl">
+              Wir kennen das. Weil wir genauso sind.
             </p>
             <p>
-              Das Problem ist die <span className="text-on-surface font-semibold">Wandfarbe</span>. 200 Farbtöne im Baumarkt, ein winziges Kärtchen — und die leise Angst, dass „Greige" an der Wand einfach nur grau aussieht.
+              Du scrollst abends durch Pinterest. Speicherst Bilder. Hunderte. Dieses Wohnzimmer in Greige-Tönen. Diese Küche mit den offenen Regalen. Dieses Kinderzimmer, das aussieht wie aus einem skandinavischen Katalog.
             </p>
             <p>
-              Das Problem ist der <span className="text-on-surface font-semibold">Fehlkauf</span>. Das Sofa sah online toll aus. In deinem Wohnzimmer wirkt es wie ein Fremdkörper. Retournieren? Mit dem riesigen Karton? Nee.
+              Du weißt <span className="text-on-surface font-semibold">ganz genau</span>, was dir gefällt.
             </p>
             <p>
-              Das Problem ist die <span className="text-on-surface font-semibold">leere Ecke</span>. Da fehlt irgendwas, aber du kommst einfach nicht drauf was. Jede Idee fühlt sich an wie ein Blindflug mit echtem Geld.
+              Das war noch nie dein Problem.
             </p>
             <p>
-              Also passiert... erstmal nichts. Wieder ein Monat. Das Zimmer sieht noch genauso aus. Und dieser Gedanke bleibt: <span className="text-on-surface font-semibold italic">&ldquo;Irgendwann mache ich das mal.&rdquo;</span>
+              Dein Problem beginnt am Samstag im Baumarkt. 200 Farbtöne auf winzigen Kärtchen. „Greige" heißt der eine, „Sandstein" der andere — und beide sehen unter Neonlicht identisch aus. Du nimmst einen mit nach Hause, hältst ihn an die Wand und denkst: <span className="text-on-surface font-semibold italic">&ldquo;Sieht das jetzt gut aus oder einfach nur grau?&rdquo;</span>
             </p>
-            <p className="text-primary font-bold text-xl md:text-2xl pt-4 text-center">
-              Was wäre, wenn du es einfach sehen könntest — bevor du irgendwas kaufst?
+            <p>
+              Also lässt du es. Erstmal.
+            </p>
+            <p>
+              Oder du bestellst das Sofa. Das, was online <span className="text-on-surface font-semibold">so unglaublich toll</span> aussah. Auf dem Foto. Im perfekt ausgeleuchteten Showroom. Bei dir im Wohnzimmer steht es dann da wie ein Fremdkörper. Zu groß. Falscher Farbton. Passt nicht zum Boden. Retournieren? Mit dem Karton, der den halben Flur blockiert?
+            </p>
+            <p>
+              Nee.
+            </p>
+            <p>
+              Also bleibt es stehen. Und du gewöhnst dich dran. Wie an die leere Ecke im Schlafzimmer. Da fehlt irgendwas — ein Sessel vielleicht? Eine Stehlampe? Ein Regal? Du überlegst seit Monaten, aber jede Idee fühlt sich an wie ein <span className="text-on-surface font-semibold">Blindflug mit echtem Geld</span>.
+            </p>
+            <p>
+              Und dann Ostern. Oder der Geburtstag. Oder einfach mal ein schönes Dinner. Du willst den Tisch hübsch decken, aber woher die Ideen nehmen? Die Deko bei Depot sieht im Laden gut aus — aber bei dir auf dem Tisch? Keine Ahnung.
+            </p>
+            <p>
+              Also passiert... erstmal nichts.
+            </p>
+            <p>
+              Wieder ein Monat. Das Zimmer sieht noch genauso aus. Die Ecke ist noch leer. Der Esstisch noch kahl. Und dieser Gedanke bleibt:
+            </p>
+            <p className="text-on-surface font-bold text-xl md:text-2xl text-center italic">
+              &ldquo;Irgendwann mache ich das mal.&rdquo;
+            </p>
+            <p>
+              Hier sind die guten Nachrichten:
+            </p>
+            <p>
+              Du musst nicht mehr raten. Nicht mehr hoffen, dass es passt. Nicht mehr 200€ für ein Kissen-und-Decken-Set ausgeben, das dann doch nicht zum Rest passt.
+            </p>
+            <p className="text-on-surface font-semibold text-xl md:text-2xl">
+              Du kannst es jetzt einfach <span className="text-primary">sehen</span> — bevor du irgendwas kaufst.
+            </p>
+            <p>
+              Ein Foto von deinem Raum. Ein Stil deiner Wahl. Und in wenigen Sekunden zeigt dir die KI, wie dein Zimmer mit neuen Möbeln, einer neuen Wandfarbe oder einer komplett neuen Einrichtung aussehen würde.
+            </p>
+            <p>
+              Alles echt. Alles kaufbar. Mit Preisvergleich.
+            </p>
+            <p>
+              Kein Blindflug mehr. Kein Raten. Kein <span className="text-on-surface font-semibold italic">&ldquo;Irgendwann&rdquo;</span>.
+            </p>
+            <p className="text-primary font-bold text-2xl md:text-3xl pt-6 text-center font-display">
+              Jetzt.
             </p>
           </div>
         </div>
