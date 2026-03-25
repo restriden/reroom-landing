@@ -314,7 +314,7 @@ export default function App() {
                 <div className="relative overflow-hidden rounded-3xl">
                   <video ref={redesignVideoRef} autoPlay muted playsInline
                     className="w-full aspect-[4/3] object-cover"
-                    style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                    style={{ transform: "translateZ(0)", backfaceVisibility: "hidden", willChange: "transform", isolation: "isolate" }}
                     onEnded={() => setRedesignPaused(true)}>
                     <source src="/demo-redesign.mp4" type="video/mp4" />
                   </video>
@@ -344,7 +344,7 @@ export default function App() {
                 <div className="relative overflow-hidden rounded-3xl">
                   <video ref={zimmerVideoRef} autoPlay muted playsInline
                     className="w-full aspect-[4/3] object-cover"
-                    style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                    style={{ transform: "translateZ(0)", backfaceVisibility: "hidden", willChange: "transform", isolation: "isolate" }}
                     onEnded={() => setZimmerPaused(true)}>
                     <source src="/demo-kinderzimmer.mp4" type="video/mp4" />
                   </video>
@@ -421,7 +421,7 @@ export default function App() {
                   <div className="flex-1 relative overflow-hidden rounded-3xl">
                     <video ref={osternVideoRef} autoPlay muted playsInline
                       className="w-full aspect-[3/4] object-cover"
-                      style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                      style={{ transform: "translateZ(0)", backfaceVisibility: "hidden", willChange: "transform", isolation: "isolate" }}
                       onEnded={() => {
                         setOsternPaused(true);
                         setOsternFinished(true);
@@ -450,7 +450,7 @@ export default function App() {
                   <div className="flex-1 relative overflow-hidden rounded-3xl">
                     <video ref={romantischVideoRef} muted playsInline
                       className="w-full aspect-[3/4] object-cover"
-                      style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                      style={{ transform: "translateZ(0)", backfaceVisibility: "hidden", willChange: "transform", isolation: "isolate" }}
                       onEnded={() => setRomantischPaused(true)}>
                       <source src="/demo-romantisch.mp4" type="video/mp4" />
                     </video>
