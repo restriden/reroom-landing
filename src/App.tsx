@@ -191,6 +191,9 @@ export default function App() {
           <p className="text-on-surface-variant text-sm font-bold tracking-[0.15em] uppercase mb-6 text-center">Ein ehrliches Wort</p>
           <div className="text-on-surface-variant text-lg md:text-xl leading-relaxed space-y-5">
             <p className="text-on-surface font-semibold text-xl md:text-2xl">
+              Das Teuerste ist nicht das falsche Möbelstück — sondern ein Zuhause, das du nur okay findest, statt es zu lieben.
+            </p>
+            <p className="text-on-surface font-semibold">
               Wir kennen das. Weil wir genauso sind.
             </p>
             <p>
@@ -529,8 +532,6 @@ export default function App() {
             </h2>
             <p className="text-lg text-on-surface-variant mt-3 max-w-[50ch] mx-auto">
               Keine Kreditkarte. Keine Verpflichtung. 2.000 Credits zum Ausprobieren.
-              <br />
-              <span className="text-sm">Das Teuerste ist nicht das falsche Möbelstück — sondern ein Zuhause, das du nur okay findest, statt es zu lieben.</span>
             </p>
           </div>
           <div id="pricing-cards" data-animate className={`grid grid-cols-1 md:grid-cols-3 gap-5 max-w-4xl mx-auto transition-all duration-700 delay-200 ${vis("pricing-cards") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
