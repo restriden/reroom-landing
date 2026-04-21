@@ -19,6 +19,9 @@ const ArrowBack = ({ size = 16 }: { size?: number }) => (
 
 /* ═══════════════ BEFORE/AFTER HERO ═══════════════ */
 
+const BEFORE_IMG = "https://kcnjqiimclekertpfdpb.supabase.co/storage/v1/object/public/room-images/f09f6adf-9863-4e91-a304-f4d26f2622b2/1776295449936_original.png";
+const AFTER_IMG = "https://kcnjqiimclekertpfdpb.supabase.co/storage/v1/object/public/room-images/f09f6adf-9863-4e91-a304-f4d26f2622b2/1776295449953_generated.png";
+
 function HeroArt() {
   const [split, setSplit] = useState(50);
   const ref = useRef<HTMLDivElement>(null);
@@ -46,59 +49,15 @@ function HeroArt() {
       onTouchMove={(e) => setFromClientX(e.touches[0].clientX)}
     >
       {/* Before (full) */}
-      <svg className="room-svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="wallBefore" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#CFC8B8" />
-            <stop offset="1" stopColor="#9F9888" />
-          </linearGradient>
-          <linearGradient id="floorBefore" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#8B7A66" />
-            <stop offset="1" stopColor="#6E5E4D" />
-          </linearGradient>
-        </defs>
-        <rect width="400" height="330" fill="url(#wallBefore)" />
-        <rect y="330" width="400" height="170" fill="url(#floorBefore)" />
-        <rect x="70" y="260" width="160" height="70" fill="#6E6556" opacity="0.65" rx="4" />
-        <rect x="260" y="220" width="80" height="110" fill="#7A6E5D" opacity="0.55" rx="3" />
-        <circle cx="340" cy="210" r="6" fill="#E8D394" opacity="0.7" />
-      </svg>
+      <img className="ba-img" src={BEFORE_IMG} alt="Wohnzimmer vorher" draggable={false} />
       {/* After (clipped) */}
-      <svg
-        className="room-svg"
-        viewBox="0 0 400 500"
-        preserveAspectRatio="xMidYMid slice"
+      <img
+        className="ba-img"
+        src={AFTER_IMG}
+        alt="Wohnzimmer nachher"
+        draggable={false}
         style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}
-      >
-        <defs>
-          <linearGradient id="wallAfter" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#EFE9DC" />
-            <stop offset="1" stopColor="#D9CFBB" />
-          </linearGradient>
-          <linearGradient id="floorAfter" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#B89874" />
-            <stop offset="1" stopColor="#8F7250" />
-          </linearGradient>
-        </defs>
-        <rect width="400" height="330" fill="url(#wallAfter)" />
-        <rect y="330" width="400" height="170" fill="url(#floorAfter)" />
-        <ellipse cx="200" cy="440" rx="170" ry="36" fill="#C07C5E" opacity="0.55" />
-        <rect x="60" y="310" width="200" height="90" rx="18" fill="#8DA592" />
-        <rect x="60" y="290" width="200" height="40" rx="12" fill="#9CB89A" />
-        <rect x="70" y="300" width="55" height="28" rx="8" fill="#FFFFFF" opacity="0.5" />
-        <rect x="135" y="300" width="55" height="28" rx="8" fill="#FFFFFF" opacity="0.4" />
-        <rect x="200" y="300" width="55" height="28" rx="8" fill="#E8D394" opacity="0.7" />
-        <rect x="285" y="330" width="60" height="60" rx="6" fill="#6E5141" />
-        <rect x="290" y="320" width="50" height="10" rx="3" fill="#543F33" />
-        <rect x="300" y="240" width="30" height="90" rx="5" fill="#3A4E3A" />
-        <ellipse cx="315" cy="240" rx="32" ry="26" fill="#4E6A4F" />
-        <ellipse cx="300" cy="225" rx="18" ry="22" fill="#5A7A5B" />
-        <ellipse cx="330" cy="228" rx="20" ry="24" fill="#3E5C3F" />
-        <rect x="120" y="130" width="80" height="100" fill="#FFFFFF" stroke="#1F2A1E" strokeWidth="1" opacity="0.9" />
-        <rect x="128" y="138" width="64" height="84" fill="#C8D6C3" />
-        <line x1="280" y1="0" x2="280" y2="80" stroke="#1F2A1E" strokeWidth="0.5" />
-        <ellipse cx="280" cy="95" rx="30" ry="14" fill="#E8D394" />
-      </svg>
+      />
 
       <div className="ba-tag left">Vorher</div>
       <div className="ba-tag right">Nachher</div>

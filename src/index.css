@@ -124,6 +124,7 @@ p{ color:var(--inkSoft) }
   user-select:none;
 }
 .room-svg{ position:absolute; inset:0; width:100%; height:100% }
+.ba-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; -webkit-user-drag:none }
 .ba-split{
   position:absolute; top:0; bottom:0; width:3px; background:#fff;
   box-shadow: 0 0 0 1px rgba(31,42,30,0.1);
